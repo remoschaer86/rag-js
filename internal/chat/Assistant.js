@@ -1,3 +1,4 @@
+//import {MessageModel as Message} from "../appDB/model/Conversation.js";
 import LLMQuestion from "../llms/llmQuestion.js";
 import Message from "./Message.js";
 
@@ -13,6 +14,7 @@ class Assistant {
     }
 
     CreateMessage(text, sources) {
+
         const msg = new Message(this.name, text, sources)
         this.conversation.AddMessage(msg);
         return msg;
@@ -36,6 +38,7 @@ class Assistant {
     async Reply(strategy) {
 
         const messages = this.conversation.GetMessages()
+        
         const messageData = messages.map(msg => msg.GetData())
 
         const llmQuestion = new LLMQuestion(messageData)

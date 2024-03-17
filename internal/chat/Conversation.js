@@ -1,6 +1,7 @@
 class Conversation {
-    constructor () {
+    constructor (model) {
         this.messages = []
+        
     }
 
     AddMessage(msg) {

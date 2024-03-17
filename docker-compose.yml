@@ -11,8 +11,8 @@ services:
       - ~/Documents/qdrant_data:/qdrant/data
   mongodb:
       image: mongo:latest
-      container_name: mongodb
+      container_name: appDB
       ports:
         - "27017:27017"  # MongoDB default port
       volumes:
-        - ~/Documents/mongodb_data:/data/db
+        - ~/Documents/mongodb_data:/mongo/data

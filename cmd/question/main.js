@@ -7,11 +7,14 @@ import User from "../../internal/chat/User.js";
 import ChatGPT from '../../internal/llms/ChatGPT.js';
 import Qdrant from '../../internal/vDB/Qdrant.js';
 import RetrievalStrategy from '../../internal/chat/RetrievalStrategy.js';
+import mongoose from "mongoose";
+//import {ConversationModel as Conversation} from '../../internal/appDB/model/Conversation.js';
 
 const vDB = new Qdrant(Config.vDB);
 const llm = new ChatGPT(Config.llm);
 
 const conversation = new Conversation();
+//const conversation = new Conversation()
 
 const system = new System(conversation);
 const user = new User(conversation, llm, vDB);
@@ -28,6 +31,10 @@ const privateQuestion2 = "I only want those animals that live on land"
 
 async function main() {
 
+    await mongoose.connect('mongodb://127.0.0.1:27017/test');
+
+
+
     system.CreateMessage(systemMessage)
 
     user.CreateMessage(privateQuestion)
@@ -43,6 +50,9 @@ async function main() {
 
     // console.log("--------")
     // console.log(reply.GetText())
+
+
+    await mongoose.disconnect()
 
 
 
