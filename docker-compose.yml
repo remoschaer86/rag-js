@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: vDB
+    ports:
+      - "6333:6333"  # Qdrant gRPC port
+      - "6334:6334"  # Qdrant REST API port
+    volumes:
+      - ~/Documents/qdrant_data:/qdrant/data
+  mongodb:
+      image: mongo:latest
+      container_name: mongodb
+      ports:
+        - "27017:27017"  # MongoDB default port
+      volumes:
+        - ~/Documents/mongodb_data:/data/db
