@@ -14,8 +14,19 @@ class Message {
         return this.sources
     }
 
-    
     GetData() {
+
+        const {role,content, sources} = this;
+
+        return {
+            role,
+            content,
+            sources
+        }
+    }
+
+
+    GetDataWithoutSources() {
 
         const {role,content} = this;
 

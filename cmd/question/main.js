@@ -8,7 +8,7 @@ import ChatGPT from '../../internal/llms/ChatGPT.js';
 import Qdrant from '../../internal/vDB/Qdrant.js';
 import RetrievalStrategy from '../../internal/chat/RetrievalStrategy.js';
 import mongoose from "mongoose";
-//import {ConversationModel as Conversation} from '../../internal/appDB/model/Conversation.js';
+//import Conversation from '../../internal/appDB/model/Conversation.js';
 
 const vDB = new Qdrant(Config.vDB);
 const llm = new ChatGPT(Config.llm);
@@ -33,23 +33,18 @@ async function main() {
 
     await mongoose.connect('mongodb://127.0.0.1:27017/test');
 
+    //await conversation.New()
 
+    await system.CreateMessage(systemMessage)
 
-    system.CreateMessage(systemMessage)
-
-    user.CreateMessage(privateQuestion)
-    user.CreateMessage(privateQuestion2)
-
-    let reply = await assistant.Reply()
-
-    console.log(reply.GetText())
-
+    // user.CreateMessage(privateQuestion)
     // user.CreateMessage(privateQuestion2)
 
-    // reply = await assistant.Reply()
+    // let reply = await assistant.Reply()
 
-    // console.log("--------")
     // console.log(reply.GetText())
+
+ 
 
 
     await mongoose.disconnect()

@@ -39,7 +39,7 @@ class Assistant {
 
         const messages = this.conversation.GetMessages()
         
-        const messageData = messages.map(msg => msg.GetData())
+        const messageData = messages.map(msg => msg.GetDataWithoutSources())
 
         const llmQuestion = new LLMQuestion(messageData)
 

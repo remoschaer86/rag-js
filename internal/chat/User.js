@@ -1,4 +1,5 @@
 import Message from "./Message.js";
+//import {MessageModel as Message} from "../appDB/model/Conversation.js";
 
 class User {
   constructor(conversation) {
