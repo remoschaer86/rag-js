@@ -1,18 +1,17 @@
 
-class RetrievalStrategy {
+class RetrievalStrategies {
 
-    constructor(conversation, type) {
+    constructor(conversation) {
         this.conversation = conversation;
-        this.type = type;
     }
 
-    lastUserMessage() {
+    LastUserMessage() {
         const userMessage =  this.conversation.GetLastUserMessage()
         const txt = userMessage.GetText()
         return txt
     }
 
-    allUserMessages() {
+    AllUserMessages() {
         const userMessages =  this.conversation.GetUserMessages()
 
         let txt = '';
@@ -43,4 +42,4 @@ class RetrievalStrategy {
 }
 
 
-export default RetrievalStrategy;
+export default RetrievalStrategies;

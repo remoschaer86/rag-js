@@ -1,41 +1,14 @@
-import mongoose from "mongoose";
-
-const messageSchema = new mongoose.Schema({
-    content: String,
-    role: { type: String, enum: ['user', 'assistant', 'system'] },
-    // Add any other properties you want to store for each message
-});
-
-// Define the schema for the conversation
-const conversationSchema = new mongoose.Schema({
-    name: String,
-    messages: [messageSchema],
-    // Add any other properties you want to store for the conversation
-});
-
-const ConversationModel = mongoose.model('Conversation', conversationSchema);
-
-
-
-
 class Conversation {
     constructor () {
-        this.model = new ConversationModel()
-
+        this.messages = [];
     }
 
-
-
-    async AddMessage(msg) {
-
-        const data = msg.GetData()
-
-        this.model.messages.push(data)
-        await this.model.save()
+    AddMessage(msg) {
+        this.messages.push(msg)
     }
 
     GetMessages() {
-        return this.messages
+        return this.messages;
     }
 
     GetSystemMessage() {

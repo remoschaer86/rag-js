@@ -1,20 +1,17 @@
-//import {MessageModel as Message} from "../appDB/model/Conversation.js";
-import LLMQuestion from "../llms/llmQuestion.js";
 import Message from "./Message.js";
+import RetrievalStrategies from "./RetrievalStrategies.js";
 
 class Assistant {
 
-    constructor(conversation, llm, vDB, augmentStrategy) {
+    constructor(conversation, llm, vDB) {
         this.conversation = conversation;
         this.name = 'assistant'
         this.llm = llm;
         this.vDB = vDB;
-        this.augmentStrategy = augmentStrategy;
-
+   
     }
 
     CreateMessage(text, sources) {
-
         const msg = new Message(this.name, text, sources)
         this.conversation.AddMessage(msg);
         return msg;
@@ -23,38 +20,39 @@ class Assistant {
 
     async getSources() {
 
-        const embeddingStr = this.augmentStrategy.GetEmbeddingString()
+        const strategies = new RetrievalStrategies(this.conversation)
+
+        const embeddingStr = strategies.AllUserMessages()
 
         const embedding = await this.llm.CreateSingleEmbedding(embeddingStr)
     
         const {vector} = embedding.GetData();
     
-        const results = await this.vDB.Search(vector)
+        const sources = await this.vDB.Search(vector)
     
-        return results
+        return sources
     }
 
 
-    async Reply(strategy) {
+    async Reply() {
 
         const messages = this.conversation.GetMessages()
         
-        const messageData = messages.map(msg => msg.GetDataWithoutSources())
-
-        const llmQuestion = new LLMQuestion(messageData)
-
         const sources = await this.getSources();
 
-        llmQuestion.AppendAddInfo(sources);
+        const sourceContent = sources.String()
 
-        const messageHistoryWithInfos = llmQuestion.GetMessageHistory()
+        const sourceMsg = new Message('user', sourceContent)
 
-        const llmResponse = await this.llm.Chat(messageHistoryWithInfos)
-        const msg = this.CreateMessage(llmResponse, sources)
-        return msg
+        messages.push(sourceMsg)
+
+        const msgData = messages.map(msg => msg.GetData(false))
+
+       const llmResponse = await this.llm.Chat(msgData)
+
+       const msg = this.CreateMessage(llmResponse, sources.GetData())
+       return msg
     }
-
-
 
 }
 

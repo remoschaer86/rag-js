@@ -14,21 +14,24 @@ class Message {
         return this.sources
     }
 
-    GetData() {
 
-        const {role,content, sources} = this;
+    GetData(includeSources) {
 
-        return {
-            role,
-            content,
-            sources
+        let data = {
+            role: this.role,
+            content: this.content
         }
+
+        if(includeSources) {
+            data.sources = this.sources
+        }
+        return data
     }
 
 
     GetDataWithoutSources() {
 
-        const {role,content} = this;
+        const { role, content } = this;
 
         return {
             role,

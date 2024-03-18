@@ -1,5 +1,4 @@
 import Message from "./Message.js";
-//import {MessageModel as Message} from "../appDB/model/Conversation.js";
 
 class User {
   constructor(conversation) {
@@ -8,7 +7,7 @@ class User {
     this.name = "user";
   }
 
-  CreateMessage(text, sources) {
+  CreateMessage(text) {
     const msg = new Message(this.name, text, null)
     this.conversation.AddMessage(msg);
     return msg;

@@ -1,5 +1,6 @@
 import { QdrantClient } from "@qdrant/js-client-rest";
 import Source from "./Source.js";
+import Sources from "./Sources.js";
 
 class Qdrant {
   constructor(config) {
@@ -61,9 +62,10 @@ class Qdrant {
       limit: this.config.search.limit,
     });
 
-    const sources = dbResponse.map((result) =>  new Source(result.payload.text, result.score))
+    
 
-    return sources;
+    const sourceData = dbResponse.map((result) =>  new Source(result.payload.text, result.score))
+    return new Sources(sourceData)
   }
 }
 

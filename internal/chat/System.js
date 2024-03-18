@@ -1,5 +1,4 @@
 import Message from "./Message.js";
-//import Message from "../appDB/model/Message.js";
 
 class System {
 
@@ -8,9 +7,9 @@ class System {
         this.name = 'system';
     }
 
-    async CreateMessage(text) {
+    CreateMessage(text) {
         const msg = new Message(this.name, text, null)
-        await this.conversation.AddMessage(msg);
+        this.conversation.AddMessage(msg);
         return msg;
     }
 
