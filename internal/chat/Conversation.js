@@ -1,5 +1,6 @@
 class Conversation {
     constructor () {
+        this.id = 1;
         this.messages = [];
     }
 
@@ -9,6 +10,10 @@ class Conversation {
 
     GetMessages() {
         return this.messages;
+    }
+
+    ClearMessages() {
+        this.messages = [];
     }
 
     GetSystemMessage() {
@@ -25,6 +30,15 @@ class Conversation {
         const lastMessage = userMessages[userMessages.length - 1]
         return lastMessage
     }
+
+    GetAll() {
+        return {
+            id: this.id,
+            messages: this.messages
+        }
+    }
+
+
     
 }
 

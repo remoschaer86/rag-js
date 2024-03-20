@@ -5,15 +5,15 @@ dotenv.config()
 const Config = {
     vDB: {
         client: {
-            host: "localhost",
-            port: 6333
+            host: process.env.VDB_HOST,
+            port: parseInt(process.env.VDB_PORT)
         },
         collection: {
-            name: "remos_col",
-            vectors: { size: 1536, distance: "Cosine" }
+            name: process.env.VDB_COLLECTION_NAME,
+            vectors: { size: parseInt(process.env.VDB_COLLECTION_SIZE), distance: process.env.VDB_COLLECTION_DISTANCE }
         },
         search: {
-            limit: 3
+            limit: parseInt(process.env.VDB_SEARCH_LIMIT)
         }
     },
     llm: {
@@ -21,12 +21,16 @@ const Config = {
             organization: process.env.OPENAI_ORG,
         },
         embeddings: {
-            model: "text-embedding-3-small",
-            format: "float"
+            model: process.env.LLM_EMBEDDING_MODEL,
+            format: process.env.LLM_EMBEDDING_FORMAT
         },
         chat: {
-            model: 'gpt-3.5-turbo'
+            model: process.env.LLM_CHAT_MODEL,
+            systemPrompt: process.env.LLM_SYSTEM_PROMPT
         }
+    },
+    api: {
+        port: parseInt(process.env.API_PORT)
     }
 }
 

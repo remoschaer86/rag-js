@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "ingest": "node cmd/ingest/main.js",
-    "question": "node cmd/question/main.js",
-    "rest": "node cmd/rest/main.js"
+    "test": "node cmd/test/main.js",
+    "api_prod": "node cmd/api/main.js",
+    "api_dev": "nodemon cmd/api/main.js"
   },
   "keywords": [],
   "author": "",
@@ -16,12 +17,10 @@
     "@qdrant/js-client-rest": "^1.8.1",
     "dotenv": "^16.4.5",
     "express": "^4.18.3",
-    "mongoose": "^8.2.2",
     "openai": "^4.29.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@types/express": "^4.17.21",
-    "@types/mongoose": "^5.11.97"
+    "@types/express": "^4.17.21"
   }
 }

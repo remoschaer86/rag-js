@@ -1,8 +1,8 @@
 
+import Config from '../../internal/config/config.js';
 import Qdrant from '../../internal/vDB/Qdrant.js';
 import ChatGPT from '../../internal/llms/ChatGPT.js';
 import Ingestion from '../../internal/ingestion/Ingestion.js';
-import Config from '../../internal/config/config.js';
 
 const vDB = new Qdrant(Config.vDB);
 const llm = new ChatGPT(Config.llm);
