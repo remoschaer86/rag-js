@@ -9,10 +9,3 @@ services:
       - "6334:6334"  # Qdrant REST API port
     volumes:
       - ~/Documents/qdrant_data:/qdrant/data
-  mongodb:
-      image: mongo:latest
-      container_name: appDB
-      ports:
-        - "27017:27017"  # MongoDB default port
-      volumes:
-        - ~/Documents/mongodb_data:/mongo/data

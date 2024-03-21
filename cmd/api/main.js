@@ -6,7 +6,12 @@ import System from "../../internal/chat/System.js";
 import User from "../../internal/chat/User.js";
 import ChatGPT from '../../internal/llms/ChatGPT.js';
 import Qdrant from '../../internal/vDB/Qdrant.js';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const STATIC_FILES_PATH = join(__dirname, '../../client/dist');
 
 const vDB = new Qdrant(Config.vDB);
 const llm = new ChatGPT(Config.llm);
@@ -16,6 +21,9 @@ const PORT = Config.api.port;
 
 app.use(express.json());
 
+
+app.use(express.static(STATIC_FILES_PATH));
+
 const conversation = new Conversation();
 
 const system = new System(conversation);
@@ -24,7 +32,7 @@ system.CreateMessage(Config.llm.chat.systemPrompt)
 const user = new User(conversation, llm, vDB);
 const assistant = new Assistant(conversation, llm, vDB);
 
-app.post('/conversation', async (req, res) => {
+app.post('/api/conversation', async (req, res) => {
 
 
   return res.status(200).json({
@@ -35,7 +43,7 @@ app.post('/conversation', async (req, res) => {
   })
 })
 
-app.get('/conversation/:id', async (req, res) => {
+app.get('/api/conversation/:id', async (req, res) => {
 
   return res.status(200).json({
     success: true,
@@ -45,7 +53,7 @@ app.get('/conversation/:id', async (req, res) => {
   })
 })
 
-app.post('/conversation/:conversationId/messages', async (req, res) => {
+app.post('/api/conversation/:conversationId/messages', async (req, res) => {
 
   user.CreateMessage(req.body.content)
 
@@ -59,7 +67,7 @@ app.post('/conversation/:conversationId/messages', async (req, res) => {
   })
 })
 
-app.delete('/conversation/:id', async (req, res) => {
+app.delete('/api/conversation/:id', async (req, res) => {
 
   conversation.ClearMessages()
 
@@ -67,6 +75,10 @@ app.delete('/conversation/:id', async (req, res) => {
     success: true
   })
 })
+
+app.get('*', (req, res) => {
+  res.sendFile(`${STATIC_FILES_PATH}/index.html`);
+});
 
 
 app.listen(PORT, () => `App listening on port ${PORT}`)
